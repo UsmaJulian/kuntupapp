@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "742431472709",
+    "firebase_url": "https://kunturapp-8b667.firebaseio.com",
+    "project_id": "kunturapp-8b667",
+    "storage_bucket": "kunturapp-8b667.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742431472709:android:2e7ccdef3e176f6295b72c",
+        "android_client_info": {
+          "package_name": "com.kunturbirdwatching.kunturapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742431472709-clh5phvlf44t7uvehrm1kgfnivtq7oqf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcsZZhWH3-Hto2dNxLtzDueo80oPmpuWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742431472709-clh5phvlf44t7uvehrm1kgfnivtq7oqf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
