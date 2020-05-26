@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //"TODO:Cambiar el color del statusbar"
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.black));
+        SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.white,statusBarBrightness: Brightness.dark));
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Kuntur App',

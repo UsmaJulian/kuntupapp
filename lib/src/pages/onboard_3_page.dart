@@ -30,7 +30,7 @@ class Onboard3Page extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 38.0),
               child: Center(
                 child: Text(
-                  'Encuentra los mejores sitios de Colombia para hacer avistamiento de aves',
+                  'Explora nuevos lugares para hacer avistamiento de aves',
                   style: themeCustom.textTheme.headline2,
                   textAlign: TextAlign.center,
                 ),
