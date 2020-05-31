@@ -6,17 +6,19 @@ import 'package:kunturapp/src/pages/details_page.dart';
 import 'package:kunturapp/src/pages/distrib_page.dart';
 import 'package:kunturapp/src/pages/iframe_page.dart';
 import 'package:kunturapp/src/routes/tabs_routes_page.dart';
-import 'package:kunturapp/src/services/user_prefs.dart';
+
 import 'package:kunturapp/src/theme/theme.dart';
-// import 'package:kunturapp/src/widgets/customNavigator.dart';
+
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BirdChip extends StatefulWidget {
   final data;
   final data2;
   final indexTo;
-  const BirdChip(this.data, this.data2, this.indexTo);
+  const BirdChip({Key key, this.data, this.data2, this.indexTo})
+      : super(key: key);
 
   @override
   _BirdChipState createState() => _BirdChipState();
@@ -25,6 +27,8 @@ class BirdChip extends StatefulWidget {
 class _BirdChipState extends State<BirdChip> {
   @override
   Widget build(BuildContext context) {
+    final data = widget.data;
+    final index = widget.indexTo;
     return ChangeNotifierProvider(
       create: (_) => new NavegacionModel(),
       child: Scaffold(
@@ -36,7 +40,10 @@ class _BirdChipState extends State<BirdChip> {
                 data1: this.widget.data,
                 data2: this.widget.data2,
               ),
-              _AppBar(widget.data, widget.indexTo),
+              _AppBar(
+                data: data,
+                index: index,
+              ),
               Positioned(
                   top: (MediaQuery.of(context).size.height * 0.5) - 10,
                   left: 0,
@@ -61,15 +68,18 @@ class _AppBar extends StatefulWidget {
   final data;
   final index;
 
-  const _AppBar(this.data, this.index);
+  const _AppBar({
+    Key key,
+    this.data,
+    this.index,
+  }) : super(key: key);
 
   @override
   __AppBarState createState() => __AppBarState();
 }
 
 class __AppBarState extends State<_AppBar> {
-  final prefs = new UserPrefs();
-  bool visto;
+  bool visto = false;
 
   @override
   void initState() {
@@ -79,10 +89,11 @@ class __AppBarState extends State<_AppBar> {
   }
 
   void _restaurarVisto() async {
-    var vistos = await prefs.visto;
+    var vistos = await SharedPreferences.getInstance();
+    var visto = vistos.getBool('${widget.data['Nombre científico']}') ?? false;
 
     setState(() {
-      this.visto = vistos;
+      this.visto = visto;
     });
   }
 
@@ -90,7 +101,8 @@ class __AppBarState extends State<_AppBar> {
     setState(() {
       visto = !visto;
     });
-    prefs.visto = visto;
+    var vistos = await SharedPreferences.getInstance();
+    vistos.setBool('${widget.data['Nombre científico']}', visto);
   }
 
   @override
@@ -123,6 +135,7 @@ class __AppBarState extends State<_AppBar> {
         Padding(
           padding: const EdgeInsets.only(top: 32.0, right: 15.0),
           child: Container(
+            key: UniqueKey(),
             width: 62.0,
             height: 24,
             decoration: BoxDecoration(
@@ -130,11 +143,26 @@ class __AppBarState extends State<_AppBar> {
                 borderRadius: BorderRadius.circular(16.0)),
             child: Center(
               //"TODO:agregar alert dialog con: has agregado nombre dinamico a tu lista de aves vistas"
-              child: InkWell(
-                child: Text(
-                  widget.index.toString(),
-                  // 'Visto',
-                  style: themeCustom.textTheme.button,
+              child: GestureDetector(
+                key: UniqueKey(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Visibility(
+                        visible: visto, child: Flexible(child: Container())),
+                    Text(
+                      // widget.index.toString(),
+                      'Visto',
+                      style: themeCustom.textTheme.button,
+                    ),
+                    Visibility(
+                        visible: visto,
+                        child: Icon(
+                          CupertinoIcons.check_mark,
+                          size: 19,
+                        )),
+                  ],
                 ),
                 onTap: () {
                   _crearVisto();

@@ -7,18 +7,19 @@ import 'package:kunturapp/src/pages/bird_chip.dart';
 import 'package:kunturapp/src/theme/theme.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key key}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  bool _isVisible = false;
+  bool isVisible = false;
   String field = 'Nombre científico';
   // String field = 'Nombre común';
   @override
   void initState() {
     super.initState();
-    _isVisible = _isVisible;
+    isVisible = isVisible;
     setState(() {
       field = field;
     });
@@ -225,6 +226,7 @@ class _HomePageState extends State<HomePage> {
   Widget _cardItemsList(BuildContext context, String field) {
     final size = MediaQuery.of(context).size;
     final padding = MediaQuery.of(context).padding;
+
     return Container(
       width: double.infinity,
       height: size.height - padding.top - (padding.bottom + 230),
@@ -251,6 +253,7 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                     InkWell(
                       child: Container(
+                        key: UniqueKey(),
                         height: 89.0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -290,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                             Visibility(
-                              visible: _isVisible,
+                              visible: isVisible,
                               child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 24.0),
                                 child: Icon(
@@ -309,8 +312,11 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    BirdChip(data, data2, indexTo)));
+                                builder: (context) => BirdChip(
+                                      data: data,
+                                      data2: data2,
+                                      indexTo: indexTo,
+                                    )));
                       },
                     ),
                     Center(
