@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kunturapp/src/pages/bird_chip.dart';
-
 import 'package:kunturapp/src/theme/theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,9 +54,9 @@ class _HomePageState extends State<HomePage> {
     BuildContext context,
   ) {
     return StreamBuilder(
-        stream: Firestore.instance.collection('data').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData || snapshot.data?.documents == null) {
+        stream: FirebaseFirestore.instance.collection('data').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData || snapshot.data?.docs == null) {
             return Center(
               child: CupertinoActivityIndicator(),
             );
@@ -172,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: 10.0),
                   Row(
                     children: <Widget>[
-                      Text('${snapshot.data.documents.length}',
+                      Text('${snapshot.data.docs.length}',
                           style: themeCustom.textTheme.bodyText2),
                       SizedBox(
                         width: 5.0,
@@ -238,15 +237,17 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       child: StreamBuilder(
-        stream:
-            Firestore.instance.collection('data').orderBy(field).snapshots(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData || snapshot.data?.documents == null) {
+        stream: FirebaseFirestore.instance
+            .collection('data')
+            .orderBy(field)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData || snapshot.data?.docs == null) {
             return Center(child: CupertinoActivityIndicator());
           } else {
             return ListView.builder(
               shrinkWrap: true,
-              itemCount: snapshot.data.documents.length,
+              itemCount: snapshot.data.docs.length,
               itemBuilder: (BuildContext context, int index) {
                 //snapshot.data.documents[index]['Nombre científico']
                 return Column(
@@ -256,41 +257,41 @@ class _HomePageState extends State<HomePage> {
                         key: UniqueKey(),
                         height: 89.0,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
                               margin: EdgeInsets.all(15.0),
-                              padding: EdgeInsets.all(2),
+                              padding: EdgeInsets.all(1),
                               decoration: BoxDecoration(
                                   border: Border.all(color: Color(0xffd8d8d8)),
                                   borderRadius: BorderRadius.circular(50)),
                               child: ClipRRect(
-                                clipBehavior: Clip.antiAlias,
-                                borderRadius: BorderRadius.circular(50),
-                                child: FadeInImage(
-                                  placeholder:
-                                      AssetImage('assets/images/no_image.png'),
-                                  image: NetworkImage(
-                                    "${snapshot.data.documents[index]['Imagen']}",
-                                  ),
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
+                                  clipBehavior: Clip.antiAlias,
+                                  borderRadius: BorderRadius.circular(90),
+                                  child: CircleAvatar(
+                                    radius: 30.0,
+                                    backgroundImage: NetworkImage(
+                                        "${snapshot.data.docs[index].data()['Imagen']}"),
+                                    backgroundColor: Colors.transparent,
+                                  )),
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  snapshot.data.documents[index]
-                                      ['Nombre científico'],
-                                  style: themeCustom.textTheme.bodyText1,
-                                ),
-                                Text(
-                                  snapshot.data.documents[index]
-                                      ['Nombre común'],
-                                  style: themeCustom.textTheme.bodyText2,
-                                ),
-                              ],
+                            Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    snapshot.data.docs[index]
+                                        .data()['Nombre científico'],
+                                    style: themeCustom.textTheme.bodyText1,
+                                  ),
+                                  Text(
+                                    snapshot.data.docs[index]
+                                        .data()['Nombre común'],
+                                    style: themeCustom.textTheme.bodyText2,
+                                  ),
+                                ],
+                              ),
                             ),
                             Visibility(
                               visible: isVisible,
@@ -305,15 +306,15 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       onTap: () {
-                        final data = snapshot.data.documents[index];
-                        final data2 = snapshot.data.documents;
+                        final data = snapshot.data.docs[index];
+                        final data2 = snapshot.data.docs;
                         final indexTo = index;
 
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => BirdChip(
-                                      data: data,
+                                      data: data.data(),
                                       data2: data2,
                                       indexTo: indexTo,
                                     )));

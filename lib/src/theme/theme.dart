@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 
 final themeCustom = ThemeData.light().copyWith(
+    buttonTheme: ButtonThemeData(
+      buttonColor: Color(0xff000639),
+    ),
+    primaryColor: Color(0xff000639),
+    buttonColor: Color(0xff000639),
     accentColor: Color(0xff000639),
     textTheme: TextTheme(
       headline1: TextStyle(
           fontFamily: 'GalanoGrotesque',
           fontSize: 22,
+          fontWeight: FontWeight.w700,
+          color: Color(0xff2a2a2a),
+          letterSpacing: 1),
+      headline4: TextStyle(
+          fontFamily: 'GalanoGrotesque',
+          fontSize: 11,
           fontWeight: FontWeight.w700,
           color: Color(0xff2a2a2a),
           letterSpacing: 1),

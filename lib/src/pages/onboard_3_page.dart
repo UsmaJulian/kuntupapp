@@ -4,7 +4,6 @@ import 'package:kunturapp/src/theme/theme.dart';
 class Onboard3Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //"TODO: ACOPLAR PANTALLAS DEBAJO DEL NOTCH"
     return SafeArea(
       child: Scaffold(
         body: Column(

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:kunturapp/src/pages/home_page.dart';
+import 'package:kunturapp/src/pages/login_pages/onboarding_page.dart';
+
 import 'package:kunturapp/src/pages/onboard_1_page.dart';
 import 'package:kunturapp/src/pages/onboard_2_page.dart';
 import 'package:kunturapp/src/pages/onboard_3_page.dart';
+import 'package:kunturapp/src/providers/user_status_provider.dart';
 import 'package:kunturapp/src/routes/tabs_routes_page.dart';
+
 import 'package:kunturapp/src/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -81,7 +86,7 @@ class __PaginasOnBoardState extends State<_PaginasOnBoard> {
                   color: themeCustom.accentColor,
                   child: (index == 0)
                       ? Text(
-                          'ORDENAR LISTA DE AVES',
+                          'COMENZAR',
                           style: TextStyle(
                               fontFamily: 'GalanoGrotesque',
                               fontSize: 11,
@@ -101,10 +106,12 @@ class __PaginasOnBoardState extends State<_PaginasOnBoard> {
                         ? navegacionOnBoard.pageController.nextPage(
                             duration: Duration(milliseconds: 350),
                             curve: Curves.easeOut)
-                        : Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TabsRoutePage()));
+                        : Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                            return userStatus.userStatus == 'Authenticated'
+                                ? TabsRoutePage()
+                                : OnBoardingPage();
+                          }));
                   }),
             ),
           ),
