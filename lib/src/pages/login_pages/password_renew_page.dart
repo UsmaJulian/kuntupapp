@@ -92,28 +92,32 @@ class _PasswordRenewPageState extends State<PasswordRenewPage> {
                   )),
             ),
             Container(
-              margin: EdgeInsets.only(top: 310),
-              width: 333,
-              height: 50,
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(27.0),
-                ),
-                color: themeCustom.accentColor,
-                onPressed: () {
-                  auth.sendPasswordReset(_emailController.text);
-                },
-                child: Text(
-                  'ENVIAR LINK',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'GalanoGrotesque',
-                    fontSize: 11,
+                margin: EdgeInsets.only(top: 310),
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: 50,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(27.0),
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.resolveWith(
+                          (states) => themeCustom.accentColor)),
+                  onPressed: () {
+                    auth.sendPasswordReset(_emailController.text);
+                  },
+                  child: Text(
+                    'ENVIAR LINK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'GalanoGrotesque',
+                      letterSpacing: 1.0,
+                      fontSize: 11,
+                    ),
                   ),
-                ),
-              ),
-            )
+                ))
           ],
         ),
       ),

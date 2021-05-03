@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kunturapp/src/routes/onboard_routes_page.dart';
-
 import 'package:kunturapp/src/theme/theme.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -69,7 +68,7 @@ class _LoadingPageState extends State<LoadingPage> {
       margin: EdgeInsets.only(top: 22),
       padding: EdgeInsets.symmetric(horizontal: 48.0),
       child: Text(
-        'Bienvenido a Kuntur. Estamos cargando las aves en tu teléfono. ',
+        'Un momento, estamos cargando las aves en tu teléfono. ',
         style: themeCustom.textTheme.headline2,
         textAlign: TextAlign.center,
       ),

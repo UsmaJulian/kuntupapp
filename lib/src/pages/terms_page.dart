@@ -50,26 +50,29 @@ class _TerminosPageState extends State<TerminosPage> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 74),
-              width: 333,
-              height: 50,
-              child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(27.0),
-                ),
-                color: themeCustom.accentColor,
-                onPressed: () {},
-                child: Text(
-                  'ACEPTAR TÉRMINOS',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'GalanoGrotesque',
-                    fontSize: 11,
+                margin: EdgeInsets.only(top: 74),
+                width: 333,
+                height: 50,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(27.0),
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.resolveWith(
+                          (states) => themeCustom.accentColor)),
+                  onPressed: () {},
+                  child: Text(
+                    'ACEPTAR TÉRMINOS',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'GalanoGrotesque',
+                      fontSize: 11,
+                    ),
                   ),
-                ),
-              ),
-            ),
+                )),
           ],
         ),
       ),

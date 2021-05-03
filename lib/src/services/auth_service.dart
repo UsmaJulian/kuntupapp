@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+
 import 'package:kunturapp/src/models/user_model.dart';
 import 'package:kunturapp/src/providers/user_status_provider.dart';
 

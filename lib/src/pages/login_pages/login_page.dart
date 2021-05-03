@@ -39,7 +39,8 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.02),
+                    top: MediaQuery.of(context).size.width * 0.032,
+                    left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
                   'Iniciar Sesión',
                   style: themeCustom.textTheme.headline1,
@@ -47,8 +48,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.02,
-                    right: MediaQuery.of(context).size.width * 0.02),
+                    top: MediaQuery.of(context).size.width * 0.039,
+                    left: MediaQuery.of(context).size.width * 0.05,
+                    right: MediaQuery.of(context).size.width * 0.05),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -57,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                       //Email
                       Container(
                         padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.016,
+                            top: MediaQuery.of(context).size.height * 0.036,
                             left: MediaQuery.of(context).size.width * 0.02),
                         child: Text('Correo electrónico',
                             style: themeCustom.textTheme.headline2),
@@ -92,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                       //Contraseña
                       Container(
                         padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.016,
+                            top: MediaQuery.of(context).size.height * 0.024,
                             left: MediaQuery.of(context).size.width * 0.02),
                         child: Text('Contraseña (Mín 6 caracteres)',
                             style: themeCustom.textTheme.headline2),
@@ -141,7 +143,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       // End Contraseña
                       Container(
-                        child: FlatButton(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.023),
+                        child: TextButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -158,21 +162,27 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Center(
                         child: Container(
-                          margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.071),
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          height: 54.0,
-                          child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(27.0),
-                              ),
-                              color: themeCustom.accentColor,
+                            margin: EdgeInsets.only(
+                                top:
+                                    MediaQuery.of(context).size.height * 0.166),
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: 54.0,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(27.0),
+                                    ),
+                                  ),
+                                  backgroundColor:
+                                      MaterialStateProperty.resolveWith(
+                                          (states) => themeCustom.accentColor)),
                               child: Text(
                                 'CONTINUAR',
                                 style: TextStyle(
                                     fontFamily: 'GalanoGrotesque',
                                     fontSize: 11,
-                                    letterSpacing: 0,
+                                    letterSpacing: 1.0,
                                     fontWeight: FontWeight.w700,
                                     color: Colors.white),
                               ),
@@ -185,8 +195,8 @@ class _LoginPageState extends State<LoginPage> {
                                     MaterialPageRoute(
                                       builder: (context) => OnBoardRoutesPage(),
                                     ));
-                              }),
-                        ),
+                              },
+                            )),
                       ),
                       Center(
                         child: Container(
@@ -202,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                               Container(
-                                child: FlatButton(
+                                child: TextButton(
                                   onPressed: () {
                                     Navigator.push(
                                         context,

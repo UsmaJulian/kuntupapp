@@ -7,7 +7,7 @@ import 'package:kunturapp/src/pages/belly_color_selection_page.dart';
 import 'package:kunturapp/src/pages/chest_color_selection_page.dart';
 import 'package:kunturapp/src/pages/family_selection_page.dart';
 import 'package:kunturapp/src/pages/foots_color_selection_page.dart';
-import 'package:kunturapp/src/pages/gender_selection_page.dart';
+
 import 'package:kunturapp/src/pages/head_color_selection_page.dart';
 import 'package:kunturapp/src/pages/search_result_page.dart';
 import 'package:kunturapp/src/pages/tail_color_selection_page.dart';
@@ -21,7 +21,7 @@ import 'package:kunturapp/src/providers/color_selection_head_provider.dart';
 import 'package:kunturapp/src/providers/color_selection_tail_provider.dart';
 import 'package:kunturapp/src/providers/color_selection_wings_provider.dart';
 import 'package:kunturapp/src/providers/family_selection_provider.dart';
-import 'package:kunturapp/src/providers/gender_selection_provider.dart';
+
 import 'package:kunturapp/src/theme/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -1407,41 +1407,45 @@ class _SearchPageState extends State<SearchPage> {
                       color: Color(0xfff9fafb),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 16.0, bottom: 11.0),
-                      width: 333,
-                      height: 50,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(27.0),
-                        ),
-                        color: Color(0xff1858e8),
-                        onPressed: () {
-                          setState(() {
-                            filters.join();
-                            final List<String> lista = filters.toList();
-                            final List<String> strList = lista.sublist(1);
-                            if (strList.isNotEmpty) print('tap');
-                            print(strList.runtimeType);
-                            print(strList);
-                            filtros = strList;
-                          });
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      SearchResultPage(strList: filtros)));
-                        },
-                        child: Text(
-                          'APLICAR FILTROS',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'GalanoGrotesque',
-                            fontSize: 11,
+                        margin: EdgeInsets.only(top: 16.0, bottom: 11.0),
+                        width: 333,
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(27.0),
+                                ),
+                              ),
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith(
+                                      (states) => Color(0xff1858e8))),
+                          onPressed: () {
+                            setState(() {
+                              filters.join();
+                              final List<String> lista = filters.toList();
+                              final List<String> strList = lista.sublist(1);
+                              if (strList.isNotEmpty) print('tap');
+                              print(strList.runtimeType);
+                              print(strList);
+                              filtros = strList;
+                            });
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SearchResultPage(strList: filtros)));
+                          },
+                          child: Text(
+                            'APLICAR FILTROS',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'GalanoGrotesque',
+                              fontSize: 11,
+                            ),
                           ),
-                        ),
-                      ),
-                    )
+                        ))
                   ],
                 ),
               )

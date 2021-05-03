@@ -42,24 +42,32 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
+                  width: 44.0,
+                  height: 44.0,
                   child: IconButton(
                     icon: Image.asset('assets/icons/apple/centre.png'),
                     onPressed: () {},
                   ),
                 ),
                 Container(
+                  width: 44.0,
+                  height: 44.0,
                   child: IconButton(
                     icon: Image.asset('assets/icons/facebook/centre.png'),
                     onPressed: () {},
                   ),
                 ),
                 Container(
+                  width: 44.0,
+                  height: 44.0,
                   child: IconButton(
                     icon: Image.asset('assets/icons/google+/centre.png'),
                     onPressed: () {},
                   ),
                 ),
                 Container(
+                  width: 44.0,
+                  height: 44.0,
                   child: IconButton(
                     icon: Image.asset('assets/icons/twitter/centre.png'),
                     onPressed: () {},
@@ -78,59 +86,69 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ),
           ),
           Container(
-            width: MediaQuery.of(context).size.width * 0.6,
+            width: MediaQuery.of(context).size.width * 0.9,
             height: 54.0,
-            child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(27.0),
-                ),
-                color: themeCustom.accentColor,
-                child: Text(
-                  'CREAR CUENTA',
-                  style: TextStyle(
-                      fontFamily: 'GalanoGrotesque',
-                      fontSize: 11,
-                      letterSpacing: 0,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => RegisterPage()));
-                }),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(27.0),
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                      (states) => themeCustom.accentColor)),
+              child: Text(
+                'CREAR CUENTA',
+                style: TextStyle(
+                    fontFamily: 'GalanoGrotesque',
+                    fontSize: 11,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => RegisterPage()));
+              },
+            ),
           ),
           Container(
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.017,
             ),
-            width: MediaQuery.of(context).size.width * 0.6,
-            height: 54.0,
-            child: RaisedButton(
-                elevation: 2,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    style: BorderStyle.solid,
-                    color: Color(0xfff4f6f8),
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: 64.0,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      side: BorderSide(
+                        style: BorderStyle.solid,
+                        color: Color(0xfff4f6f8),
+                      ),
+                      borderRadius: BorderRadius.circular(27.0),
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(27.0),
-                ),
-                child: Text(
-                  'INICIAR SESIÓN',
-                  style: TextStyle(
-                      fontFamily: 'GalanoGrotesque',
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => LoginPage()));
-                }),
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                      (states) => Colors.white)),
+              child: Text(
+                'INICIAR SESIÓN',
+                style: TextStyle(
+                    fontFamily: 'GalanoGrotesque',
+                    fontSize: 11,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black),
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => LoginPage()));
+              },
+            ),
           ),
         ],
       ),

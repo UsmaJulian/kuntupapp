@@ -40,7 +40,8 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Container(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.02),
+                    top: MediaQuery.of(context).size.width * 0.033,
+                    left: MediaQuery.of(context).size.width * 0.05),
                 child: Text(
                   'Crear mi cuenta',
                   style: themeCustom.textTheme.headline1,
@@ -48,8 +49,9 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Container(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.02,
-                    right: MediaQuery.of(context).size.width * 0.02),
+                    top: MediaQuery.of(context).size.width * 0.039,
+                    left: MediaQuery.of(context).size.width * 0.05,
+                    right: MediaQuery.of(context).size.width * 0.05),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -213,38 +215,46 @@ class _RegisterPageState extends State<RegisterPage> {
                       // End Contraseña
                       Center(
                         child: Container(
-                          margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.071),
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          height: 54.0,
-                          child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(27.0),
-                              ),
-                              color: themeCustom.accentColor,
-                              child: Text(
-                                'CONTINUAR',
-                                style: TextStyle(
-                                    fontFamily: 'GalanoGrotesque',
-                                    fontSize: 11,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white),
-                              ),
-                              onPressed: () {
-                                setState(() {});
-                                auth.signUp(
-                                    name: _nameController.text,
-                                    phone: _phoneController.text,
-                                    email: _emailController.text,
-                                    password: _passwordController.text);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => OnBoardRoutesPage(),
-                                    ));
-                              }),
-                        ),
+                            margin: EdgeInsets.only(
+                                top:
+                                    MediaQuery.of(context).size.height * 0.071),
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: 54.0,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(27.0),
+                                      ),
+                                    ),
+                                    backgroundColor:
+                                        MaterialStateProperty.resolveWith(
+                                            (states) =>
+                                                themeCustom.accentColor)),
+                                child: Text(
+                                  'CONTINUAR',
+                                  style: TextStyle(
+                                      fontFamily: 'GalanoGrotesque',
+                                      fontSize: 11,
+                                      letterSpacing: 1.0,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  setState(() {});
+                                  auth.signUp(
+                                      name: _nameController.text,
+                                      phone: _phoneController.text,
+                                      email: _emailController.text,
+                                      password: _passwordController.text);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            OnBoardRoutesPage(),
+                                      ));
+                                })),
                       ),
                       Center(
                         child: Container(
@@ -260,7 +270,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ),
                               Container(
-                                child: FlatButton(
+                                child: TextButton(
                                   onPressed: () {
                                     Navigator.push(
                                         context,

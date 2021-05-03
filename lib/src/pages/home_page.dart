@@ -78,10 +78,8 @@ class _HomePageState extends State<HomePage> {
                         child: InkWell(
                           child: Icon(
                             CupertinoIcons.ellipsis,
-                            color: Color(
-                              0xff32cb97,
-                            ),
-                            size: 16.0,
+                            color: Colors.black,
+                            size: 24.0,
                           ),
                           onTap: () {
                             showCupertinoDialog(
