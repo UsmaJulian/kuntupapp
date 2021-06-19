@@ -1455,8 +1455,9 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _clear() {
-    setState(() {});
+    setState(() {
+      filters.clear();
+    });
     print('clear');
-    filtros.clear();
   }
 }

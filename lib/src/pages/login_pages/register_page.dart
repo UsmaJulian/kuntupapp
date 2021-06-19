@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kunturapp/src/pages/login_pages/login_page.dart';
-import 'package:kunturapp/src/routes/onboard_routes_page.dart';
+import 'package:kunturapp/src/providers/user_status_provider.dart';
+
+import 'package:kunturapp/src/routes/tabs_routes_page.dart';
 import 'package:kunturapp/src/services/auth_service.dart';
 import 'package:kunturapp/src/theme/theme.dart';
 
@@ -241,19 +243,21 @@ class _RegisterPageState extends State<RegisterPage> {
                                       fontWeight: FontWeight.w700,
                                       color: Colors.white),
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
                                   setState(() {});
-                                  auth.signUp(
+                                  await auth.signUp(
                                       name: _nameController.text,
                                       phone: _phoneController.text,
                                       email: _emailController.text,
                                       password: _passwordController.text);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            OnBoardRoutesPage(),
-                                      ));
+                                  if (userStatus.userStatus ==
+                                      'Authenticated') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => TabsRoutePage(),
+                                        ));
+                                  }
                                 })),
                       ),
                       Center(

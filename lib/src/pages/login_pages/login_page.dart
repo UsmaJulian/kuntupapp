@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kunturapp/src/pages/login_pages/password_renew_page.dart';
 import 'package:kunturapp/src/pages/login_pages/register_page.dart';
-import 'package:kunturapp/src/routes/onboard_routes_page.dart';
+import 'package:kunturapp/src/providers/user_status_provider.dart';
+
+import 'package:kunturapp/src/routes/tabs_routes_page.dart';
 import 'package:kunturapp/src/services/auth_service.dart';
 import 'package:kunturapp/src/theme/theme.dart';
 
@@ -85,6 +87,9 @@ class _LoginPageState extends State<LoginPage> {
                               return null;
                           },
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(
+                              left: 10.0,
+                            ),
                             border: InputBorder.none,
                           ),
                           onSaved: (input) => _email = input,
@@ -122,6 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           obscureText: _obscureText,
                           decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(left: 10.0, top: 15.0),
                             border: InputBorder.none,
                             suffixIcon: IconButton(
                               iconSize: 20,
@@ -186,15 +193,18 @@ class _LoginPageState extends State<LoginPage> {
                                     fontWeight: FontWeight.w700,
                                     color: Colors.white),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 setState(() {});
-                                auth.logIn(_emailController.text,
+                                await auth.logIn(_emailController.text,
                                     _passwordController.text);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => OnBoardRoutesPage(),
-                                    ));
+
+                                if (userStatus.userStatus == 'Authenticated') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => TabsRoutePage(),
+                                      ));
+                                }
                               },
                             )),
                       ),

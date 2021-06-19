@@ -33,6 +33,8 @@ class __PaginasOnBoardState extends State<_PaginasOnBoard> {
   int index = 0;
   @override
   Widget build(BuildContext context) {
+    print('USERSTATUS====');
+    print(userStatus.userStatus);
     final size = MediaQuery.of(context).size;
     final padding = MediaQuery.of(context).padding;
     final navegacionOnBoard = Provider.of<_NavegacionOnBoard>(context);

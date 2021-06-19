@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:kunturapp/src/models/bird_model.dart';
 import 'package:kunturapp/src/pages/bird_chip.dart';
 import 'package:kunturapp/src/theme/theme.dart';
 
@@ -12,16 +13,70 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  TextEditingController _searchController = TextEditingController();
   bool isVisible = false;
   String field = 'Nombre científico';
   // String field = 'Nombre común';
+  Future resultsLoaded;
+  List _allListResults = [];
+  List _listResults = [];
+
   @override
   void initState() {
     super.initState();
     isVisible = isVisible;
+    _searchController.addListener(_onSearchChanged);
     setState(() {
       field = field;
     });
+  }
+
+  _onSearchChanged() {
+    _searchResultList();
+    print(_searchController.text);
+  }
+
+  _searchResultList() {
+    var _showResults = [];
+    if (_searchController.text != "") {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> itemResult
+          in _allListResults) {
+        var nombresList = itemResult.data()['Nombre científico'].toLowerCase();
+        if (nombresList.contains(_searchController.text)) {
+          _showResults.add(itemResult);
+        }
+      }
+    } else {
+      _showResults = List.from(_allListResults);
+    }
+    setState(() {
+      _listResults = _showResults;
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    resultsLoaded = getAllItemList();
+  }
+
+  getAllItemList() async {
+    var data = await FirebaseFirestore.instance
+        .collection('data')
+        .orderBy(field)
+        .get();
+    setState(() {
+      _allListResults = data.docs;
+    });
+    _searchResultList();
+    return "All List Data complete";
   }
 
   @override
@@ -188,35 +243,35 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _searchBar(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.92,
-        height: 44.0,
-        decoration: BoxDecoration(
-            color: Color(0xffdfe3e8),
-            borderRadius: BorderRadius.circular(25.0)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              width: 16.0,
-            ),
-            SvgPicture.asset(
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.92,
+      height: 44.0,
+      decoration: BoxDecoration(
+          color: Color(0xffdfe3e8), borderRadius: BorderRadius.circular(25.0)),
+      child: TextField(
+        style: TextStyle(
+          color: Colors.black,
+        ),
+        cursorHeight: 22.0,
+        controller: _searchController,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(bottom: 10.0),
+          isDense: true,
+          labelStyle: TextStyle(color: Color(0xff212b36), fontSize: 14.0),
+          labelText: 'Buscar',
+          border: InputBorder.none,
+          prefixIconConstraints:
+              BoxConstraints(maxHeight: 20.0, minHeight: 20.0),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 8.0, top: 2.0),
+            child: SvgPicture.asset(
               'assets/icons/search.svg',
               color: Color(0xff212b36),
+              fit: BoxFit.contain,
             ),
-            SizedBox(
-              width: 8.0,
-            ),
-            Text(
-              'Buscar',
-              style: themeCustom.textTheme.bodyText2,
-            )
-          ],
+          ),
         ),
       ),
-      onTap: () {},
     );
   }
 
@@ -225,113 +280,195 @@ class _HomePageState extends State<HomePage> {
     final padding = MediaQuery.of(context).padding;
 
     return Container(
-      width: double.infinity,
-      height: size.height - padding.top - (padding.bottom + 230),
-      decoration: BoxDecoration(
-        color: Color(0xffffffff),
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(16),
-          bottom: Radius.circular(0),
+        width: double.infinity,
+        height: size.height - padding.top - (padding.bottom + 230),
+        decoration: BoxDecoration(
+          color: Color(0xffffffff),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(16),
+            bottom: Radius.circular(0),
+          ),
         ),
-      ),
-      child: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('data')
-            .orderBy(field)
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData || snapshot.data?.docs == null) {
-            return Center(child: CupertinoActivityIndicator());
-          } else {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data.docs.length,
-              itemBuilder: (BuildContext context, int index) {
-                //snapshot.data.documents[index]['Nombre científico']
-                return Column(
-                  children: <Widget>[
-                    InkWell(
-                      child: Container(
-                        key: UniqueKey(),
-                        height: 89.0,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.all(15.0),
-                              padding: EdgeInsets.all(1),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xffd8d8d8)),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: ClipRRect(
-                                  clipBehavior: Clip.antiAlias,
-                                  borderRadius: BorderRadius.circular(90),
-                                  child: CircleAvatar(
-                                    radius: 30.0,
-                                    backgroundImage: NetworkImage(
-                                        "${snapshot.data.docs[index].data()['Imagen']}"),
-                                    backgroundColor: Colors.transparent,
-                                  )),
-                            ),
-                            Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    snapshot.data.docs[index]
-                                        .data()['Nombre científico'],
-                                    style: themeCustom.textTheme.bodyText1,
-                                  ),
-                                  Text(
-                                    snapshot.data.docs[index]
-                                        .data()['Nombre común'],
-                                    style: themeCustom.textTheme.bodyText2,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Visibility(
-                              visible: isVisible,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                child: Icon(
-                                  CupertinoIcons.check_mark,
-                                ),
-                              ),
-                            ),
-                          ],
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: _listResults.length,
+          itemBuilder: (BuildContext context, int index) {
+            //snapshot.data.documents[index]['Nombre científico']
+            return Column(
+              children: <Widget>[
+                InkWell(
+                  child: Container(
+                    key: UniqueKey(),
+                    height: 89.0,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.all(15.0),
+                          padding: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xffd8d8d8)),
+                              borderRadius: BorderRadius.circular(50)),
+                          child: ClipRRect(
+                              clipBehavior: Clip.antiAlias,
+                              borderRadius: BorderRadius.circular(90),
+                              child: CircleAvatar(
+                                radius: 30.0,
+                                backgroundImage: NetworkImage(
+                                    "${_listResults[index].data()['Imagen']}"),
+                                backgroundColor: Colors.transparent,
+                              )),
                         ),
-                      ),
-                      onTap: () {
-                        final data = snapshot.data.docs[index];
-                        final data2 = snapshot.data.docs;
-                        final indexTo = index;
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                _listResults[index].data()['Nombre científico'],
+                                style: themeCustom.textTheme.bodyText1,
+                              ),
+                              Text(
+                                _listResults[index].data()['Nombre común'],
+                                style: themeCustom.textTheme.bodyText2,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Visibility(
+                          visible: isVisible,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Icon(
+                              CupertinoIcons.check_mark,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    final data = _listResults[index];
+                    final data2 = _listResults;
+                    final indexTo = index;
 
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BirdChip(
-                                      data: data.data(),
-                                      data2: data2,
-                                      indexTo: indexTo,
-                                    )));
-                      },
-                    ),
-                    Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 0.2,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                );
-              },
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BirdChip(
+                                  data: data.data(),
+                                  data2: data2,
+                                  indexTo: indexTo,
+                                )));
+                  },
+                ),
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: 0.2,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
             );
-          }
-        },
-      ),
-    );
+          },
+        )
+
+        // StreamBuilder(
+        //   stream: getAllItemList(context, field),
+        //   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        //     if (!snapshot.hasData || snapshot.data?.docs == null) {
+        //       return Center(child: CupertinoActivityIndicator());
+        //     } else {
+        //       return ListView.builder(
+        //         shrinkWrap: true,
+        //         itemCount: snapshot.data.docs.length,
+        //         itemBuilder: (BuildContext context, int index) {
+        //           //snapshot.data.documents[index]['Nombre científico']
+        //           return Column(
+        //             children: <Widget>[
+        //               InkWell(
+        //                 child: Container(
+        //                   key: UniqueKey(),
+        //                   height: 89.0,
+        //                   child: Row(
+        //                     crossAxisAlignment: CrossAxisAlignment.start,
+        //                     children: <Widget>[
+        //                       Container(
+        //                         margin: EdgeInsets.all(15.0),
+        //                         padding: EdgeInsets.all(1),
+        //                         decoration: BoxDecoration(
+        //                             border: Border.all(color: Color(0xffd8d8d8)),
+        //                             borderRadius: BorderRadius.circular(50)),
+        //                         child: ClipRRect(
+        //                             clipBehavior: Clip.antiAlias,
+        //                             borderRadius: BorderRadius.circular(90),
+        //                             child: CircleAvatar(
+        //                               radius: 30.0,
+        //                               backgroundImage: NetworkImage(
+        //                                   "${snapshot.data.docs[index].data()['Imagen']}"),
+        //                               backgroundColor: Colors.transparent,
+        //                             )),
+        //                       ),
+        //                       Container(
+        //                         child: Column(
+        //                           mainAxisAlignment: MainAxisAlignment.center,
+        //                           crossAxisAlignment: CrossAxisAlignment.start,
+        //                           children: <Widget>[
+        //                             Text(
+        //                               snapshot.data.docs[index]
+        //                                   .data()['Nombre científico'],
+        //                               style: themeCustom.textTheme.bodyText1,
+        //                             ),
+        //                             Text(
+        //                               snapshot.data.docs[index]
+        //                                   .data()['Nombre común'],
+        //                               style: themeCustom.textTheme.bodyText2,
+        //                             ),
+        //                           ],
+        //                         ),
+        //                       ),
+        //                       Visibility(
+        //                         visible: isVisible,
+        //                         child: Container(
+        //                           padding: EdgeInsets.symmetric(horizontal: 24.0),
+        //                           child: Icon(
+        //                             CupertinoIcons.check_mark,
+        //                           ),
+        //                         ),
+        //                       ),
+        //                     ],
+        //                   ),
+        //                 ),
+        //                 onTap: () {
+        //                   final data = snapshot.data.docs[index];
+        //                   final data2 = snapshot.data.docs;
+        //                   final indexTo = index;
+
+        //                   Navigator.push(
+        //                       context,
+        //                       MaterialPageRoute(
+        //                           builder: (context) => BirdChip(
+        //                                 data: data.data(),
+        //                                 data2: data2,
+        //                                 indexTo: indexTo,
+        //                               )));
+        //                 },
+        //               ),
+        //               Center(
+        //                 child: Container(
+        //                   width: MediaQuery.of(context).size.width * 0.9,
+        //                   height: 0.2,
+        //                   color: Colors.grey,
+        //                 ),
+        //               ),
+        //             ],
+        //           );
+        //         },
+        //       );
+        //     }
+        //   },
+        // ),
+        );
   }
 }

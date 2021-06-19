@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kunturapp/src/providers/user_status_provider.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kunturapp/src/routes/onboard_routes_page.dart';
+import 'package:kunturapp/src/routes/tabs_routes_page.dart';
 import 'package:kunturapp/src/theme/theme.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -16,10 +18,19 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer(
-        Duration(seconds: 5),
-        () => Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => OnBoardRoutesPage())));
+
+    _timer = Timer(Duration(seconds: 5), () {
+      if (userStatus.userStatus == 'Authenticated') {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TabsRoutePage(),
+            ));
+      } else {
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => OnBoardRoutesPage()));
+      }
+    });
   }
 
   @override
