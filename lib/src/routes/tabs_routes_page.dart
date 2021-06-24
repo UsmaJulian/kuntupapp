@@ -30,14 +30,13 @@ class CustomBottomNavigator extends StatelessWidget {
       child: Container(
         height: 60,
         child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            iconSize: 18.0,
-            backgroundColor: themeCustom.accentColor,
-            currentIndex: navegacionModel.paginaActual,
-            // onTap: (i) => print('$i'), //imprime el index del tab
-            onTap: (i) => navegacionModel.paginaActual = i,
-            items: [
-              BottomNavigationBarItem(
+          type: BottomNavigationBarType.fixed,
+          iconSize: 18.0,
+          backgroundColor: themeCustom.accentColor,
+          currentIndex: navegacionModel.paginaActual,
+          onTap: (i) => navegacionModel.paginaActual = i,
+          items: [
+            BottomNavigationBarItem(
                 icon: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: SvgPicture.asset(
@@ -47,57 +46,37 @@ class CustomBottomNavigator extends StatelessWidget {
                         : Colors.white,
                   ),
                 ),
-                title: Padding(
-                  padding: const EdgeInsets.only(top: 1.0, bottom: 4),
-                  child: Text(
-                    'Lista de aves',
-                    style: themeCustom.textTheme.subtitle1.apply(
-                      color: (navegacionModel.paginaActual == 0)
-                          ? Color(0xff32cb97)
-                          : Colors.white,
-                    ),
+                label: 'Lista de aves'),
+            BottomNavigationBarItem(
+                icon: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: SvgPicture.asset(
+                    'assets/icons/search.svg',
+                    color: (navegacionModel.paginaActual == 1)
+                        ? Color(0xff32cb97)
+                        : Colors.white,
                   ),
                 ),
-              ),
-              BottomNavigationBarItem(
-                  icon: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: SvgPicture.asset(
-                      'assets/icons/search.svg',
-                      color: (navegacionModel.paginaActual == 1)
-                          ? Color(0xff32cb97)
-                          : Colors.white,
-                    ),
+                label: 'Busqueda'),
+            BottomNavigationBarItem(
+                icon: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: SvgPicture.asset(
+                    'assets/icons/settings.svg',
+                    color: (navegacionModel.paginaActual == 2)
+                        ? Color(0xff32cb97)
+                        : Colors.white,
                   ),
-                  title: Padding(
-                    padding: const EdgeInsets.only(top: 1.0, bottom: 4),
-                    child: Text('Búsqueda',
-                        style: themeCustom.textTheme.subtitle1.apply(
-                          color: (navegacionModel.paginaActual == 1)
-                              ? Color(0xff32cb97)
-                              : Colors.white,
-                        )),
-                  )),
-              BottomNavigationBarItem(
-                  icon: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: SvgPicture.asset(
-                      'assets/icons/settings.svg',
-                      color: (navegacionModel.paginaActual == 2)
-                          ? Color(0xff32cb97)
-                          : Colors.white,
-                    ),
-                  ),
-                  title: Padding(
-                    padding: const EdgeInsets.only(top: 1.0, bottom: 4),
-                    child: Text('Ajustes',
-                        style: themeCustom.textTheme.subtitle1.apply(
-                          color: (navegacionModel.paginaActual == 2)
-                              ? Color(0xff32cb97)
-                              : Colors.white,
-                        )),
-                  )),
-            ]),
+                ),
+                label: 'Ajustes'),
+          ],
+          selectedLabelStyle:
+              themeCustom.textTheme.subtitle1.apply(color: Color(0xff32cb97)),
+          selectedItemColor: Color(0xff32cb97),
+          unselectedLabelStyle:
+              themeCustom.textTheme.subtitle1.apply(color: Colors.white),
+          unselectedItemColor: Colors.white,
+        ),
       ),
     );
   }

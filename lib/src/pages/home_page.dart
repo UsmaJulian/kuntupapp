@@ -42,7 +42,11 @@ class _HomePageState extends State<HomePage> {
       for (QueryDocumentSnapshot<Map<String, dynamic>> itemResult
           in _allListResults) {
         var nombresList = itemResult.data()['Nombre científico'].toLowerCase();
-        if (nombresList.contains(_searchController.text)) {
+        var nombresList2 = itemResult.data()['Nombre común'].toLowerCase();
+        var nombresList3 = itemResult.data()['Nombre en ingles'].toLowerCase();
+        if (nombresList.contains(_searchController.text) ||
+            nombresList2.contains(_searchController.text) ||
+            nombresList3.contains(_searchController.text)) {
           _showResults.add(itemResult);
         }
       }

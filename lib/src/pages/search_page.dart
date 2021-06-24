@@ -1455,8 +1455,9 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _clear() {
+    final fam = Provider.of<FamilySelection>(context, listen: false);
     setState(() {
-      filters.clear();
+      fam.setFamilySelection = "";
     });
     print('clear');
   }
