@@ -68,10 +68,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    resultsLoaded = getAllItemList();
+    resultsLoaded = getAllItemList(field);
   }
 
-  getAllItemList() async {
+  getAllItemList(field) async {
     var data = await FirebaseFirestore.instance
         .collection('data')
         .orderBy(field)
@@ -172,6 +172,7 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               onTap: () {
                                                 setState(() {
+                                                  print('Nombre común');
                                                   field = 'Nombre común';
                                                 });
                                               },
@@ -198,6 +199,7 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               onTap: () {
                                                 setState(() {
+                                                  print('Nombre científico');
                                                   field = 'Nombre científico';
                                                 });
                                               },
@@ -205,13 +207,13 @@ class _HomePageState extends State<HomePage> {
                                           ],
                                         ),
                                         actions: [
-                                          // new CupertinoDialogAction(
-                                          //     isDestructiveAction: true,
-                                          //     child: const Text('Cancelar'),
-                                          //     onPressed: () {
-                                          //       Navigator.pop(
-                                          //           context, 'Cancelar');
-                                          //     }),
+                                          new CupertinoDialogAction(
+                                              isDestructiveAction: true,
+                                              child: const Text('Cancelar'),
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    context, 'Cancelar');
+                                              }),
                                           new CupertinoDialogAction(
                                               child: const Text('Aceptar'),
                                               isDefaultAction: true,

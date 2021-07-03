@@ -17,9 +17,12 @@ class AuthService {
     UserCredential result = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
     FirebaseAuth.instance.setLanguageCode("es");
+    FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+
     if (result.user != null) {
       userStatus.setUserStatus = 'Authenticated';
     }
+    print(result);
     return result;
   }
 
@@ -75,6 +78,7 @@ class AuthService {
   /// This void returns a string with the current logued user id
   Future<User> getCurrentId() async {
     User user = FirebaseAuth.instance.currentUser;
+
     return user;
   }
 
@@ -89,6 +93,7 @@ class AuthService {
         .doc(user.uid)
         .get();
     this.user = doc;
+
     return doc;
   }
 

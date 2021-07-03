@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kunturapp/src/providers/user_status_provider.dart';
@@ -18,9 +19,9 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
     super.initState();
-
+    User _currentUser = FirebaseAuth.instance.currentUser;
     _timer = Timer(Duration(seconds: 5), () {
-      if (userStatus.userStatus == 'Authenticated') {
+      if (userStatus.userStatus == 'Authenticated' || _currentUser != null) {
         Navigator.push(
             context,
             MaterialPageRoute(

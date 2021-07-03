@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kunturapp/src/pages/login_pages/password_renew_page.dart';
@@ -119,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: themeCustom.textTheme.bodyText2,
                           validator: (input) {
                             if (input.isEmpty) {
-                              return 'El campo Contraseña no puede estar vácio';
+                              return 'El campo Contraseña no puede estar vacío';
                             } else if (input.length < 6) {
                               return 'El campo Contraseña debe ser mínimo de 6 caracteres';
                             } else

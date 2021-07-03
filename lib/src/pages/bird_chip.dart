@@ -58,7 +58,6 @@ class _BirdChipState extends State<BirdChip> {
             ],
           ),
         ),
-        bottomNavigationBar: CustomBottomNavigator(),
       ),
     );
   }
@@ -284,7 +283,7 @@ class _DetailsCard extends StatelessWidget {
                   IconButton(
                     icon: SvgPicture.asset(
                       'assets/icons/share.svg',
-                      color: Color(0xff32cb97),
+                      color: Colors.black,
                     ),
                     onPressed: () => share(
                       context,

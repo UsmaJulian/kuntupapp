@@ -1412,29 +1412,33 @@ class _SearchPageState extends State<SearchPage> {
                         height: 50,
                         child: ElevatedButton(
                           style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(27.0),
-                                ),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(27.0),
                               ),
-                              backgroundColor:
-                                  MaterialStateProperty.resolveWith(
-                                      (states) => Color(0xff1858e8))),
+                            ),
+                            backgroundColor: MaterialStateProperty.resolveWith(
+                                (states) => Color(0xff1858e8)),
+                          ),
                           onPressed: () {
                             setState(() {
                               filters.join();
                               final List<String> lista = filters.toList();
                               final List<String> strList = lista.sublist(1);
-                              if (strList.isNotEmpty) print('tap');
-                              print(strList.runtimeType);
-                              print(strList);
+                              // if (strList.isNotEmpty) print('tap');
+                              // print(strList.runtimeType);
+                              // print(strList);
                               filtros = strList;
                             });
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        SearchResultPage(strList: filtros)));
+                            if (filtros.isNotEmpty) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SearchResultPage(strList: filtros)));
+                            } else {
+                              Navigator.of(context).pop();
+                            }
                           },
                           child: Text(
                             'APLICAR FILTROS',
@@ -1456,8 +1460,24 @@ class _SearchPageState extends State<SearchPage> {
 
   void _clear() {
     final fam = Provider.of<FamilySelection>(context, listen: false);
+    final head = Provider.of<ColorHead>(context, listen: false);
+    final beak = Provider.of<ColorBeak>(context, listen: false);
+    final back = Provider.of<ColorBack>(context, listen: false);
+    final wings = Provider.of<ColorWings>(context, listen: false);
+    final tail = Provider.of<ColorTail>(context, listen: false);
+    final chest = Provider.of<ColorChest>(context, listen: false);
+    final belly = Provider.of<ColorBelly>(context, listen: false);
+    final foots = Provider.of<ColorFoots>(context, listen: false);
     setState(() {
       fam.setFamilySelection = "";
+      head.setHeadColor = "";
+      beak.setBeakColor = "";
+      back.setBackColor = '';
+      wings.setWingsColor = '';
+      tail.setTailColor = '';
+      chest.setChestColor = '';
+      belly.setBellyColor = '';
+      foots.setFootsColor = '';
     });
     print('clear');
   }
