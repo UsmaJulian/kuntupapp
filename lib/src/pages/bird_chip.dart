@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+
 import 'package:kunturapp/src/pages/details_page.dart';
 import 'package:kunturapp/src/pages/distrib_page.dart';
 import 'package:kunturapp/src/pages/iframe_page.dart';
 import 'package:kunturapp/src/routes/tabs_routes_page.dart';
+import 'package:kunturapp/src/services/firestore_service.dart';
 
 import 'package:kunturapp/src/theme/theme.dart';
 
@@ -96,9 +98,14 @@ class __AppBarState extends State<_AppBar> {
     });
   }
 
-  void _crearVisto() async {
+  void _crearVisto(Map<String, dynamic> data) async {
     setState(() {
       visto = !visto;
+      if (visto == true) {
+        FirestoreService().firebaseCreate(data);
+      } else {
+        FirestoreService().firebaseDelete(data);
+      }
     });
     var vistos = await SharedPreferences.getInstance();
     vistos.setBool('${widget.data['Nombre científico']}', visto);
@@ -156,7 +163,7 @@ class __AppBarState extends State<_AppBar> {
                       style: themeCustom.textTheme.button,
                     ),
                     Visibility(
-                        visible: visto,
+                        visible: true,
                         child: Icon(
                           CupertinoIcons.check_mark,
                           size: 19,
@@ -164,7 +171,7 @@ class __AppBarState extends State<_AppBar> {
                   ],
                 ),
                 onTap: () {
-                  _crearVisto();
+                  _crearVisto(super.widget.data);
 
                   showDialog(
                       context: context,

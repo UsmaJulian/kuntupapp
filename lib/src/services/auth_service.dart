@@ -17,7 +17,6 @@ class AuthService {
     UserCredential result = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
     FirebaseAuth.instance.setLanguageCode("es");
-    FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
 
     if (result.user != null) {
       userStatus.setUserStatus = 'Authenticated';
@@ -108,7 +107,8 @@ class AuthService {
 
   Future signOut() {
     this.user = null;
-    return FirebaseAuth.instance.signOut();
+    userStatus.setUserStatus = 'Uninitialized';
+    return FirebaseAuth.instance.signOut().then((value) => null);
   }
 }
 

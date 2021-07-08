@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:kunturapp/src/models/bird_model.dart';
 import 'package:kunturapp/src/pages/bird_chip.dart';
+
 import 'package:kunturapp/src/theme/theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,12 +24,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    super.initState();
-    isVisible = isVisible;
     _searchController.addListener(_onSearchChanged);
     setState(() {
       field = field;
     });
+
+    super.initState();
   }
 
   _onSearchChanged() {
@@ -95,7 +96,10 @@ class _HomePageState extends State<HomePage> {
               top: 185,
               left: 0,
               right: 0,
-              child: _cardItemsList(context, field)),
+              child: _cardItemsList(
+                context,
+                field,
+              )),
         ],
       ),
     ));
@@ -281,7 +285,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _cardItemsList(BuildContext context, String field) {
+  Widget _cardItemsList(
+    BuildContext context,
+    String field,
+  ) {
     final size = MediaQuery.of(context).size;
     final padding = MediaQuery.of(context).padding;
 
@@ -334,20 +341,27 @@ class _HomePageState extends State<HomePage> {
                                 _listResults[index].data()['Nombre científico'],
                                 style: themeCustom.textTheme.bodyText1,
                               ),
-                              Text(
-                                _listResults[index].data()['Nombre común'],
-                                style: themeCustom.textTheme.bodyText2,
+                              Row(
+                                children: [
+                                  Text(
+                                    _listResults[index].data()['Nombre común'],
+                                    style: themeCustom.textTheme.bodyText2,
+                                  ),
+                                  Visibility(
+                                    visible: false,
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 7.0),
+                                      child: Icon(
+                                        CupertinoIcons.check_mark,
+                                        color: Color(0xff50b83c),
+                                        size: 15.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
-                          ),
-                        ),
-                        Visibility(
-                          visible: isVisible,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 24.0),
-                            child: Icon(
-                              CupertinoIcons.check_mark,
-                            ),
                           ),
                         ),
                       ],

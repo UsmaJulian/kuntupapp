@@ -1478,6 +1478,8 @@ class _SearchPageState extends State<SearchPage> {
       chest.setChestColor = '';
       belly.setBellyColor = '';
       foots.setFootsColor = '';
+      filters.clear();
+      filtros.clear();
     });
     print('clear');
   }

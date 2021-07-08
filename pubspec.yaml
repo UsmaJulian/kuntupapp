@@ -89,6 +89,7 @@ flutter:
     - assets/icons/facebook/centre.png
     - assets/icons/google+/centre.png
     - assets/icons/twitter/centre.png
+    - assets/log-out/
 
   fonts:
     - family: ProximaNova

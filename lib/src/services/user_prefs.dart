@@ -12,7 +12,7 @@ class UserPrefs {
     this._prefs = await SharedPreferences.getInstance();
   }
 
-  get visto {
+  get getvisto {
     return _prefs.getBool('visto') ?? false;
   }
 
